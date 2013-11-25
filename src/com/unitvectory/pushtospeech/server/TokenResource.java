@@ -82,7 +82,7 @@ public class TokenResource extends HttpServlet {
             }
         } catch (JDOObjectNotFoundException e) {
             PushToken newToken = new PushToken(id, secret, token);
-            PushToken.save(newToken);
+            pm.makePersistent(newToken);
 
             resp.setContentType("application/json");
             resp.getWriter().println("{ \"status\":\"created\" }");
