@@ -59,9 +59,12 @@
         </div>
         <div class="col-md-4">
           <h2>Step 3:</h2>
-          <form role="form" method="post">
+          <% String urlId = request.getParameter("id"); %>
+          <% String deviceId = request.getParameter("deviceId"); %>
+          <% String id = (deviceId != null) ? deviceId : urlId; %>
+          <form role="form" method="post" action="<% if(id == null) { out.println("/"); } else { out.println("/?id=" + id); } %>">
             <div class="form-group">
-              <input type="text" class="form-control" name="deviceId" id="deviceId" placeholder="Device Identifier" maxlength="32">
+              <input type="text" class="form-control" name="deviceId" id="deviceId" <% if(id != null) { out.print("value=\"" + id + "\""); } %> placeholder="Device Identifier" maxlength="32">
             </div>
             <div class="form-group">
               <textarea class="form-control" rows="3" name="speakText" id="speakText" placeholder="Speech Text..." maxlength="1000"></textarea>
