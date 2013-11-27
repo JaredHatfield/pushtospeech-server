@@ -5,15 +5,15 @@
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<!-- Home Resource -->
-    <servlet>
-        <servlet-name>HomeResource</servlet-name>
-        <servlet-class>com.unitvectory.pushtospeech.server.HomeResource</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HomeResource</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    
+	<servlet>
+		<servlet-name>HomeResource</servlet-name>
+		<servlet-class>com.unitvectory.pushtospeech.server.HomeResource</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HomeResource</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
 	<!-- Speech Resource -->
 	<servlet>
 		<servlet-name>SpeechResource</servlet-name>
@@ -23,7 +23,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SpeechResource</servlet-name>
 		<url-pattern>/api/v1/speech</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Token Resource -->
 	<servlet>
 		<servlet-name>TokenResource</servlet-name>
@@ -33,4 +33,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>TokenResource</servlet-name>
 		<url-pattern>/api/v1/token</url-pattern>
 	</servlet-mapping>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>push</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 </web-app>
