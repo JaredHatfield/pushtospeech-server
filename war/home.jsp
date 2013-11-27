@@ -16,7 +16,7 @@
 
     <div class="container">
       <div class="header">
-        <h3 class="text-muted">Push to Speech for Android</h3>
+        <h1>Push to Speech for Android</h1>
       </div>
       <% SendPush.Status status = (SendPush.Status)request.getAttribute("status"); %>
       <% 
@@ -52,13 +52,17 @@
       <div class="row jumbotron">
         <div class="col-md-4">
           <h2>Step 1:</h2>
-          <p><a class="btn btn-lg btn-success" href="#" role="button">Download App</a></p>
+          <p>Install the Push to Speech app on your Android device.</p>
+          <a href="#"><img src="./static/img/googleplay.png" /></a>
         </div>
         <div class="col-md-4">
           <h2>Step 2:</h2>
+          <p>Get your device identifier from the app.</p>
+          <img src="./static/img/pushtospeech-client.png" />
         </div>
         <div class="col-md-4">
           <h2>Step 3:</h2>
+          <p>Send messages to your device to read aloud.</p>
           <% String urlId = request.getParameter("id"); %>
           <% String deviceId = request.getParameter("deviceId"); %>
           <% String id = (deviceId != null) ? deviceId : urlId; %>
@@ -67,7 +71,7 @@
               <input type="text" class="form-control" name="deviceId" id="deviceId" <% if(id != null) { out.print("value=\"" + id + "\""); } %> placeholder="Device Identifier" maxlength="32">
             </div>
             <div class="form-group">
-              <textarea class="form-control" rows="3" name="speakText" id="speakText" placeholder="Speech Text..." maxlength="1000"></textarea>
+              <textarea class="form-control" rows="3" name="speakText" id="speakText" placeholder="Text to read aloud..." maxlength="1000"></textarea>
             </div>
             <button type="submit" class="btn btn-lg btn-success">Speak</button>
           </form>
