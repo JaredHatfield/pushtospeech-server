@@ -14,22 +14,22 @@ import javax.jdo.annotations.PrimaryKey;
 public class PushToken {
 
     /**
-     * The id
+     * The device id
      */
     @PrimaryKey
-    private String id;
+    private String deviceId;
 
     /**
-     * The secret
+     * The device secret
      */
     @Persistent
-    private String secret;
+    private String deviceSecret;
 
     /**
-     * The token
+     * The registration id
      */
     @Persistent
-    private String token;
+    private String registrationId;
 
     /**
      * The valid flag
@@ -46,63 +46,63 @@ public class PushToken {
     /**
      * Initializes a new instance of the PushToken class.
      * 
-     * @param id
-     *            The id
-     * @param secret
-     *            The secret
-     * @param token
-     *            The token
+     * @param deviceId
+     *            The device id
+     * @param deviceSecret
+     *            The device secret
+     * @param registrationId
+     *            The registrationId
      */
-    public PushToken(String id, String secret, String token) {
-        this.id = id;
-        this.secret = secret;
-        this.token = token;
+    public PushToken(String deviceId, String deviceSecret, String registrationId) {
+        this.deviceId = deviceId;
+        this.deviceSecret = deviceSecret;
+        this.registrationId = registrationId;
         this.valid = true;
     }
 
     /**
-     * @return the id
+     * @return the deviceId
      */
-    public String getId() {
-        return id;
+    public String getDeviceId() {
+        return deviceId;
     }
 
     /**
-     * @param id
-     *            the id to set
+     * @param deviceId
+     *            the deviceId to set
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     /**
-     * @return the secret
+     * @return the deviceSecret
      */
-    public String getSecret() {
-        return secret;
+    public String getDeviceSecret() {
+        return deviceSecret;
     }
 
     /**
-     * @param secret
-     *            the secret to set
+     * @param deviceSecret
+     *            the deviceSecret to set
      */
-    public void setSecret(String secret) {
-        this.secret = secret;
+    public void setDeviceSecret(String deviceSecret) {
+        this.deviceSecret = deviceSecret;
     }
 
     /**
-     * @return the token
+     * @return the registrationId
      */
-    public String getToken() {
-        return token;
+    public String getRegistrationId() {
+        return registrationId;
     }
 
     /**
-     * @param token
-     *            the token to set
+     * @param registrationId
+     *            the registrationId to set
      */
-    public void setToken(String token) {
-        this.token = token;
+    public void setRegistrationId(String registrationId) {
+        this.registrationId = registrationId;
     }
 
     /**

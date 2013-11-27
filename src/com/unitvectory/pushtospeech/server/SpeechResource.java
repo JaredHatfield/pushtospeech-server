@@ -39,11 +39,11 @@ public class SpeechResource extends PushToSpeechResource {
         }
 
         // Get the content from the json
-        String id;
+        String deviceId;
         String text;
         try {
             JSONObject object = new JSONObject(jb.toString());
-            id = object.getString("id");
+            deviceId = object.getString("deviceid");
             text = object.getString("text");
         } catch (JSONException e) {
             this.returnJsonStatus(resp, 400, "invalid json");
@@ -51,13 +51,15 @@ public class SpeechResource extends PushToSpeechResource {
         }
 
         // Verify the id, text
-        if (id == null || id.isEmpty() || text == null || text.isEmpty()) {
+        if (deviceId == null || deviceId.isEmpty() || text == null
+                || text.isEmpty()) {
             this.returnJsonStatus(resp, 500, "bad request");
             return;
         }
 
         // Create or update the push token
-        SendPush.Status status = SendPush.speak(this.getApiKey(), id, text);
+        SendPush.Status status =
+                SendPush.speak(this.getApiKey(), deviceId, text);
         switch (status) {
             case BAD_CONFIG:
                 this.returnJsonStatus(resp, 500, "bad config");

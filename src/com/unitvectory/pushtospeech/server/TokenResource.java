@@ -45,22 +45,23 @@ public class TokenResource extends PushToSpeechResource {
         }
 
         // Get the content from the json
-        String id;
-        String secret;
-        String token;
+        String deviceId;
+        String deviceSecret;
+        String registrationId;
         try {
             JSONObject object = new JSONObject(jb.toString());
-            id = object.getString("id");
-            secret = object.getString("secret");
-            token = object.getString("token");
+            deviceId = object.getString("deviceid");
+            deviceSecret = object.getString("devicesecret");
+            registrationId = object.getString("registrationid");
         } catch (JSONException e) {
             this.returnJsonStatus(resp, 400, "invalid json");
             return;
         }
 
         // Verify the id, secret, and token
-        if (id == null || id.isEmpty() || secret == null || secret.isEmpty()
-                || token == null || token.isEmpty()) {
+        if (deviceId == null || deviceId.isEmpty() || deviceSecret == null
+                || deviceSecret.isEmpty() || registrationId == null
+                || registrationId.isEmpty()) {
             this.returnJsonStatus(resp, 400, "bad request");
             return;
         }
@@ -68,16 +69,20 @@ public class TokenResource extends PushToSpeechResource {
         // Create or update the push token
         PersistenceManager pm = PMF.get().getPersistenceManager();
         try {
-            Key key = KeyFactory.createKey(PushToken.class.getSimpleName(), id);
+            Key key =
+                    KeyFactory.createKey(PushToken.class.getSimpleName(),
+                            deviceId);
             PushToken pushToken = pm.getObjectById(PushToken.class, key);
-            if (secret != null && secret.equals(pushToken.getSecret())) {
-                pushToken.setToken(token);
+            if (deviceSecret != null
+                    && deviceSecret.equals(pushToken.getDeviceSecret())) {
+                pushToken.setRegistrationId(registrationId);
                 this.returnJsonStatus(resp, 200, "updated");
             } else {
                 this.returnJsonStatus(resp, 401, "unauthorized");
             }
         } catch (JDOObjectNotFoundException e) {
-            PushToken newToken = new PushToken(id, secret, token);
+            PushToken newToken =
+                    new PushToken(deviceId, deviceSecret, registrationId);
             pm.makePersistent(newToken);
             this.returnJsonStatus(resp, 200, "created");
         } finally {

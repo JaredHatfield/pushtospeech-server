@@ -67,20 +67,22 @@ public class SendPush {
      * 
      * @param api
      *            The push API key.
-     * @param id
-     *            The identifier to look up.
+     * @param deviceId
+     *            The device identifier to look up.
      * @param text
      *            The text to send.
      * @return The status of the request.
      */
-    public static Status speak(String api, String id, String text) {
-        if (id == null || id.length() == 0) {
+    public static Status speak(String api, String deviceId, String text) {
+        if (deviceId == null || deviceId.length() == 0) {
             return Status.NOT_FOUND;
         }
 
         PersistenceManager pm = PMF.get().getPersistenceManager();
         try {
-            Key key = KeyFactory.createKey(PushToken.class.getSimpleName(), id);
+            Key key =
+                    KeyFactory.createKey(PushToken.class.getSimpleName(),
+                            deviceId);
             PushToken pushToken = pm.getObjectById(PushToken.class, key);
 
             if (pushToken == null) {
@@ -89,7 +91,7 @@ public class SendPush {
                 return Status.DEACTIVATED;
             } else {
                 // Push the message!
-                String registartionId = pushToken.getToken();
+                String registartionId = pushToken.getRegistrationId();
                 if (api == null) {
                     return Status.BAD_CONFIG;
                 }
