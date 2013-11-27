@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.unitvectory.pushtospeech.server.model.SendPush;
 
 /**
+ * The home page servlet.
  * 
  * @author Jared Hatfield
  * 

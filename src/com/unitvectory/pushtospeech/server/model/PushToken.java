@@ -5,6 +5,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
+ * The push token record.
  * 
  * @author Jared Hatfield
  * 

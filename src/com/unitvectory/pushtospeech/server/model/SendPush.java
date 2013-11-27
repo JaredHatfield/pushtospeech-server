@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 /**
+ * Helper class for sending push notifications.
  * 
  * @author Jared Hatfield
  * 

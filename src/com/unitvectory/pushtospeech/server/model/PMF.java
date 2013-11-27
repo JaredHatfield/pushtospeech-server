@@ -4,6 +4,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
 /**
+ * The persistence manager factory helper class.
  * 
  * @author Jared Hatfield
  * 

@@ -6,7 +6,6 @@ import java.io.IOException;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,7 +22,7 @@ import com.unitvectory.pushtospeech.server.model.PushToken;
  * @author Jared Hatfield
  * 
  */
-public class TokenResource extends HttpServlet {
+public class TokenResource extends PushToSpeechResource {
 
     /**
      * The serial version UID.
@@ -41,9 +40,7 @@ public class TokenResource extends HttpServlet {
             while ((line = reader.readLine()) != null)
                 jb.append(line);
         } catch (Exception e) {
-            resp.setStatus(400);
-            resp.setContentType("application/json");
-            resp.getWriter().println("{ \"status\":\"invalid request\" }");
+            this.returnJsonStatus(resp, 400, "invalid request");
             return;
         }
 
@@ -57,13 +54,16 @@ public class TokenResource extends HttpServlet {
             secret = object.getString("secret");
             token = object.getString("token");
         } catch (JSONException e) {
-            resp.setStatus(400);
-            resp.setContentType("application/json");
-            resp.getWriter().println("{ \"status\":\"invalid json\" }");
+            this.returnJsonStatus(resp, 400, "invalid json");
             return;
         }
 
-        // TODO: Verify the id, secret, and token
+        // Verify the id, secret, and token
+        if (id == null || id.isEmpty() || secret == null || secret.isEmpty()
+                || token == null || token.isEmpty()) {
+            this.returnJsonStatus(resp, 400, "bad request");
+            return;
+        }
 
         // Create or update the push token
         PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -72,20 +72,14 @@ public class TokenResource extends HttpServlet {
             PushToken pushToken = pm.getObjectById(PushToken.class, key);
             if (secret != null && secret.equals(pushToken.getSecret())) {
                 pushToken.setToken(token);
-
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"updated\" }");
+                this.returnJsonStatus(resp, 200, "updated");
             } else {
-                resp.setStatus(401);
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"unauthorized\" }");
+                this.returnJsonStatus(resp, 401, "unauthorized");
             }
         } catch (JDOObjectNotFoundException e) {
             PushToken newToken = new PushToken(id, secret, token);
             pm.makePersistent(newToken);
-
-            resp.setContentType("application/json");
-            resp.getWriter().println("{ \"status\":\"created\" }");
+            this.returnJsonStatus(resp, 200, "created");
         } finally {
             pm.close();
         }

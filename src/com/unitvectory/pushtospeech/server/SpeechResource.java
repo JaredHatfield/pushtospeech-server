@@ -34,9 +34,7 @@ public class SpeechResource extends PushToSpeechResource {
             while ((line = reader.readLine()) != null)
                 jb.append(line);
         } catch (Exception e) {
-            resp.setStatus(400);
-            resp.setContentType("application/json");
-            resp.getWriter().println("{ \"status\":\"invalid request\" }");
+            this.returnJsonStatus(resp, 400, "invalid request");
             return;
         }
 
@@ -48,50 +46,39 @@ public class SpeechResource extends PushToSpeechResource {
             id = object.getString("id");
             text = object.getString("text");
         } catch (JSONException e) {
-            resp.setStatus(400);
-            resp.setContentType("application/json");
-            resp.getWriter().println("{ \"status\":\"invalid json\" }");
+            this.returnJsonStatus(resp, 400, "invalid json");
             return;
         }
 
-        // TODO: Verify the id, text
+        // Verify the id, text
+        if (id == null || id.isEmpty() || text == null || text.isEmpty()) {
+            this.returnJsonStatus(resp, 500, "bad request");
+            return;
+        }
 
         // Create or update the push token
         SendPush.Status status = SendPush.speak(this.getApiKey(), id, text);
         switch (status) {
             case BAD_CONFIG:
-                resp.setStatus(500);
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"bad config\" }");
+                this.returnJsonStatus(resp, 500, "bad config");
                 break;
             case DEACTIVATED:
-                resp.setStatus(404);
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"deactivated\" }");
+                this.returnJsonStatus(resp, 404, "deactivated");
                 break;
             case ERROR:
-                resp.setStatus(500);
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"error\" }");
+                this.returnJsonStatus(resp, 500, "error");
                 break;
             case FAILED:
-                resp.setStatus(500);
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"failed\" }");
+                this.returnJsonStatus(resp, 500, "failed");
                 break;
             case IO_ERROR:
-                resp.setStatus(500);
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"io error\" }");
+                this.returnJsonStatus(resp, 500, "io error");
                 break;
             case NOT_FOUND:
-                resp.setStatus(404);
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"not found\" }");
+                this.returnJsonStatus(resp, 404, "not found");
                 break;
             case SUCCESS:
-                resp.setContentType("application/json");
-                resp.getWriter().println("{ \"status\":\"success\" }");
+                this.returnJsonStatus(resp, 200, "success");
                 break;
             default:
                 break;
