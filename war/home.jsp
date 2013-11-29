@@ -53,7 +53,7 @@
         <div class="col-md-4">
           <h2>Step 1:</h2>
           <p>Install the Push to Speech app on your Android device.</p>
-          <a href="#"><img src="./static/img/googleplay.png" /></a>
+          <a href="https://play.google.com/store/apps/details?id=com.unitvectory.pushtospeech.client"><img src="./static/img/googleplay.png" /></a>
         </div>
         <div class="col-md-4">
           <h2>Step 2:</h2>
