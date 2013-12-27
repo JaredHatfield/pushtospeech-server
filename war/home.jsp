@@ -16,7 +16,7 @@
 
     <div class="container">
       <div class="header">
-        <h1>Push to Speech for Android</h1>
+        <h1><img src="./static/img/p2s.png" height="60" width="60" /> Push to Speech for Android</h1>
       </div>
       <% SendPush.Status status = (SendPush.Status)request.getAttribute("status"); %>
       <% 
@@ -75,6 +75,42 @@
             </div>
             <button type="submit" class="btn btn-lg btn-success">Speak</button>
           </form>
+        </div>
+      </div>
+      
+      <div class="row info">
+        <div>
+          <h1>REST API</h1>
+          <p>
+            Push to Speech provides a very simple JSON API to allow programs to send messages to
+            Android devices to be read aloud. To use this API send a simple JSON HTTP POST to
+            <i>https://pushtospeech.appspot.com/api/v1/speech</i> as documented below.
+            The <i>deviceid</i> specifies the device identifier that will read the message specified
+            by <i>text</i> aloud.
+          </p>
+          <h3>Example POST</h3>
+<pre class="code">
+POST /api/v1/speech
+Host: pushtospeech.appspot.com
+Content-Type: application/json
+{
+    "deviceid":"EXAMPLETOKEN",
+    "text":"Hello, world!"
+} 
+</pre>
+          <h3>Example Response</h3>
+<pre class="code">
+{
+    "status": "success"
+}
+</pre>
+        </div>
+        <div>
+          <h1>Open Source on <img src="./static/img/GitHub_Logo.png" width="100" height="41" /></h1>
+          <ul>
+            <li>Android Application <a href="https://github.com/JaredHatfield/pushtospeech-client">pushtospeech-client</a>
+            <li>AppEngine Application <a href="https://github.com/JaredHatfield/pushtospeech-server">pushtospeech-server</a></li>
+          </ul>
         </div>
       </div>
 
