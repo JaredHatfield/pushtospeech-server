@@ -1,9 +1,23 @@
 .idea
 .DS_Store
 .settings
-*.jar
+
 *.iml
 *~
 target/
 classes/
 appengine-generated/
+
+*.class
+
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Eclipse
+.project
+.classpath
+.settings/
